@@ -1,0 +1,36 @@
+  Boolean sendPostRequest() throws IOException {
+		Boolean result  = false;
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		try {
+			HttpPost httppost = new HttpPost("http://127.0.0.1:8080/somewebapps");
+			String jsonString = "{" +
+									"\"auth\":" + "\"" + "Container" + "\"," +
+									"\"driverClassName\":" + "\"" + "com.mysql.jdbc.Driver" + "\"," +
+									"\"initialSize\":" + "\"" + "5" + "\"," +
+									"\"maxIdle\":" + "\"" + "10" + "\"," +
+									"\"maxTotal\":" + "\"" + "20" + "\"," +
+									"\"maxWaitMillis\":" + "\"" + "10000" + "\"," +
+									"\"name\":" + "\"" + "jdbc/some_jdbc_schema" + "\"," +
+									"\"password\":" + "\"" + "some_password" + "\"," +
+									"\"type\":" + "\"" + "javax.sql.DataSource" + "\"," +
+									"\"url\":" + "\"" + "jdbc:mysql://localhost/pe_pip" + "\"," +
+									"\"username\":" + "\"" + "root" + "\"" +
+								"}";
+			StringEntity entity = new StringEntity(jsonString, ContentType.create("application/json"));
+			entity.setContentEncoding("UTF-8");
+			httppost.setEntity(entity);
+			CloseableHttpResponse response = httpclient.execute(httppost);
+			try {
+				HttpEntity resEntity = response.getEntity();
+				EntityUtils.consume(resEntity);
+				if(response.getStatusLine().getStatusCode() == 200) {
+					result = true;
+				}
+			} finally {
+				response.close();
+			}
+		} finally {
+			httpclient.close();
+		}
+		return result;
+	}
