@@ -1,0 +1,23 @@
+@RequestMapping(method=RequestMethod.POST, produces="application/json", consumes="multipart/form-data")
+public void save(@RequestPart("file") MultipartFile file) throws IOException {}
+
+private void saveZipFile(byte[] packageBytes) throws IOException {
+		
+		CloseableHttpClient httpclient = HttpClients.createDefault();        
+        try {        	
+            HttpPost httppost = new HttpPost(some_api);          
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create().setMode(HttpMultipartMode.BROWSER_COMPATIBLE);            
+            entity.addBinaryBody("file", packageBytes, ContentType.MULTIPART_FORM_DATA, "filename");
+            HttpEntity reqEntity = entity.build();           
+            httppost.setEntity(reqEntity);           
+            CloseableHttpResponse response = httpclient.execute(httppost);           
+            try {
+                HttpEntity resEntity = response.getEntity();
+                EntityUtils.consume(resEntity);
+            } finally {
+                response.close();
+            }
+        } finally {       	
+            httpclient.close();
+        }
+}
