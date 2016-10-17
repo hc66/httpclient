@@ -1,8 +1,12 @@
+@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<String> updatePIPConfiguration(@RequestBody JNDIDataBaseResource resourse) throws IOException{}
+
 Boolean sendPostRequest() throws IOException {
 		Boolean result  = false;
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
 			HttpPost httppost = new HttpPost("http://127.0.0.1:8080/somewebapps");
+			//JSON String for JNDIDataBaseResource Object.
 			String jsonString = "{" +
 					    	"\"auth\":" + "\"" + "Container" + "\"," +
 					    	"\"driverClassName\":" + "\"" + "com.mysql.jdbc.Driver" + "\"," +
