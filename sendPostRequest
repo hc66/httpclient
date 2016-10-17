@@ -1,4 +1,4 @@
-  Boolean sendPostRequest() throws IOException {
+Boolean sendPostRequest() throws IOException {
 		Boolean result  = false;
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
@@ -33,4 +33,4 @@
 			httpclient.close();
 		}
 		return result;
-	}
+}
